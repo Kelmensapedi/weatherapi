@@ -11,7 +11,7 @@ let weatherdetail = async (hasilCari) => {
 
   try {
     let fetchapi = await fetch(
-      ` http://api.weatherapi.com/v1/current.json?key=${api_key}&q=${hasilCari}`
+      ` https://api.weatherapi.com/v1/current.json?key=${api_key}&q=${hasilCari}`
     );
     let responsive = await fetchapi.json();
     let temperature = Math.floor(responsive.current.temp_c);
