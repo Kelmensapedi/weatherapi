@@ -5,13 +5,14 @@ let weatherTextNumber = document.querySelector(".weather-text-number");
 let country = document.querySelector(".country .country-text span");
 let lastUpdate = document.querySelector(".country .lastUpdate span");
 let bodyImg = document.querySelector(".body-img");
+let weathersection = document.querySelector(".weather-section");
 
 let weatherdetail = async (hasilCari) => {
   let api_key = "29f261420f584bb8b6644731251109";
 
   try {
     let fetchapi = await fetch(
-      ` http://api.weatherapi.com/v1/current.json?key=${api_key}&q=${hasilCari}`
+      ` https://api.weatherapi.com/v1/current.json?key=${api_key}&q=${hasilCari}`
     );
     let responsive = await fetchapi.json();
     let temperature = Math.floor(responsive.current.temp_c);
@@ -31,21 +32,22 @@ let weatherdetail = async (hasilCari) => {
       .toString()
       .padStart(2, "0")}`;
   } catch (error) {
-    console.log(error);
+    bodyImg.innerHTML = "";
+    weatherTextNumber.innerHTML = "";
+    country.innerText = "--";
+    lastUpdate.innerHTML = "--";
+    weatherTex.innerHTML = `<h6 class="weather-text-number">Kota tidak ditemukan</h6>`;
   }
 };
 
 cari.addEventListener("click", async function () {
   let hasilCari = search.value;
-
-  // let fetchapi = await fetch(
-  //   ` http://api.weatherapi.com/v1/current.json?key=${api_key}&q=${hasilCari}`
-  // );
-  // let reponsive = await fetchapi.json();
-  // let weather = Math.floor(reponsive.current.temp_c);
-  // weatherTextNumber.innerHTML = `${weather} <span>°C</span>`;
-  // console.log(reponsive.current.condition.icon);
-
-  weatherdetail(hasilCari);
-  hasilCari = hasilCari + " ";
+  if (hasilCari.length == 0) {
+    weatherTextNumber.innerHTML = "";
+    country.innerText = "--";
+    lastUpdate.innerHTML = "--";
+    weatherTex.innerHTML = `<h6 class="weather-text-number">Masukkan nama kota</h6>`;
+  } else if (hasilCari) {
+    weatherdetail(hasilCari);
+  }
 });
